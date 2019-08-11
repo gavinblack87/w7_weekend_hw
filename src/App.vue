@@ -1,7 +1,6 @@
 <template>
 <div>
   <team-select :teams="teams" />
-
 </div>
 </template>
 
