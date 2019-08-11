@@ -1,16 +1,19 @@
 <template>
-<div>
-  <team-select :teams="teams" />
-</div>
+  <div>
+    <team-select :teams="teams" />
+    <team-info :team="selectedTeam" />
+  </div>
 </template>
 
 <script>
 import { eventBus } from '@/main.js';
 import TeamSelect from '@/components/TeamSelect.vue';
+import TeamInfo from '@/components/TeamInfo.vue';
 
 export default {
   components: {
-    'team-select': TeamSelect
+    'team-select': TeamSelect,
+    'team-info': TeamInfo
   },
   data() {
     return {
@@ -20,7 +23,7 @@ export default {
   },
   mounted() {
     eventBus.$on('team-selected', (selectedIndex) => {
-      this.selectedTeam = this.teams[selectedIndex];
+      this.selectedTeam = this.teams.data[selectedIndex];
     });
     fetch("https://www.balldontlie.io/api/v1/teams")
     .then(res => res.json())
