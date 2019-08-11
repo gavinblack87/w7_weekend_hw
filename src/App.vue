@@ -1,17 +1,31 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+<div>
+  <team-select :teams="teams" />
+
+</div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import { eventBus } from '@/main.js';
+import TeamSelect from '@/components/TeamSelect.vue';
 
 export default {
-  name: 'app',
   components: {
-    HelloWorld
+    'team-select': TeamSelect
+  },
+  data() {
+    return {
+      teams: [],
+      selectedTeam: null
+    };
+  },
+  mounted() {
+    eventBus.$on('team-selected', (selectedIndex) => {
+      this.selectedTeam = this.teams[selectedIndex];
+    });
+    fetch("https://www.balldontlie.io/api/v1/teams")
+    .then(res => res.json())
+    .then(teams => this.teams = teams)
   }
 }
 </script>
